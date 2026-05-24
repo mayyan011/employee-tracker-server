@@ -42,29 +42,15 @@ mongoose
 
   });
 
-/* =========================
-   ROUTES
-========================= */
+/* ROUTES */
 
-app.use(
-  "/api/admin",
-  adminRoutes
-);
+app.use("/", adminRoutes);
 
-app.use(
-  "/api/employee",
-  employeeRoutes
-);
+app.use("/", employeeRoutes);
 
-app.use(
-  "/api/attendance",
-  attendanceRoutes
-);
+app.use("/", attendanceRoutes);
 
-app.use(
-  "/api/leave",
-  leaveRoutes
-);
+app.use("/", leaveRoutes);
 
 /* =========================
    TEST ROUTE
