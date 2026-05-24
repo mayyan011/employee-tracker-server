@@ -16,11 +16,12 @@ const app = express();
    MIDDLEWARE
 ========================= */
 
-app.use(cors());
-
 app.use(
-  "/uploads",
-  express.static("uploads")
+  cors({
+    origin:
+      "https://employee-tracker-client-production.up.railway.app",
+    credentials: true,
+  })
 );
 
 app.use(express.json());
