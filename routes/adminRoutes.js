@@ -31,74 +31,51 @@ router.post(
    LOGIN ADMIN
 ========================= */
 
-router.post(
+router.post("/login", async (req, res) => {
 
-  "/login",
+  try {
 
-  async (req, res) => {
+    const { email, password } = req.body;
 
-    try {
+    const admin = await Admin.findOne({ email });
 
-      const {
-        email,
-        password,
-      } = req.body;
+    if (!admin) {
 
-      const admin =
-        await Admin.findOne({
-          email,
-        });
-
-      if (!admin) {
-
-        return res.status(400).json({
-
-          message:
-            "Invalid Email",
-
-        });
-
-      }
-
-      if (
-        password !==
-        admin.password
-      ) {
-
-        return res.status(400).json({
-
-          message:
-            "Invalid Password",
-
-        });
-
-      }
-
-      res.json({
-
-        message:
-          "Login Success",
-
-        admin,
-
-      });
-
-    } catch (error) {
-
-      console.log(error);
-
-      res.status(500).json({
-
-        message:
-          error.message,
-
+      return res.status(400).json({
+        message: "Invalid Email",
       });
 
     }
 
+    const isMatch = await bcrypt.compare(
+      password,
+      admin.password
+    );
+
+    if (!isMatch) {
+
+      return res.status(400).json({
+        message: "Invalid Password",
+      });
+
+    }
+
+    res.json({
+      message: "Login Success",
+      admin,
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+      message: error.message,
+    });
+
   }
 
-);
+});
 
 /* =========================
    GET ADMIN PROFILE
