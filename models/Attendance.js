@@ -1,36 +1,36 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const attendanceSchema =
-  new mongoose.Schema({
-    employeeId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Employee",
-    },
+const attendanceSchema = new mongoose.Schema({
+  employeeId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Employee",
+  },
 
-    employeeName: String,
+  employeeName: String,
 
-    checkInTime: String,
+  checkInTime: String,
 
-    checkOutTime: String,
+  checkOutTime: String,
 
-    city: String,
+  city: String,
 
-    location: {
+  location: {
+    latitude: Number,
+    longitude: Number,
+  },
+
+  tracking: [
+    {
       latitude: Number,
       longitude: Number,
+      time: String,
     },
+  ],
+});
 
-    tracking: [
-      {
-        latitude: Number,
-        longitude: Number,
-        time: String,
-      },
-    ],
-  });
+const Attendance = mongoose.model(
+  "Attendance",
+  attendanceSchema
+);
 
-module.exports =
-  mongoose.model(
-    "Attendance",
-    attendanceSchema
-  );
+export default Attendance;
