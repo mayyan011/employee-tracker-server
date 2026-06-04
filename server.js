@@ -12,6 +12,8 @@ import leaveRoutes from "./routes/leaveRoutes.js";
 
 const app = express();
 
+app.use("/uploads", express.static("uploads"));
+
 /* =========================
 MIDDLEWARE
 ========================= */
