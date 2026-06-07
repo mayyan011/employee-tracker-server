@@ -59,36 +59,56 @@ res.status(500).json({
 
 export const checkOut = async (req, res) => {
 
-try {
+  try {
 
+    const attendance =
+      await Attendance.findById(
+        req.params.id
+      );
 
-const attendance =
-  await Attendance.findByIdAndUpdate(
-    req.params.id,
-    {
-      checkOutTime:
-        new Date().toLocaleString(),
-    },
-    { new: true }
-  );
+    if (!attendance) {
 
-res.status(200).json({
-  message: "Check Out Success",
-  attendance,
-});
+      return res.status(404).json({
+        message: "Attendance Not Found",
+      });
 
+    }
 
-} catch (error) {
+    const checkInDate =
+      new Date(attendance.checkInTime);
 
+    const checkOutDate =
+      new Date();
 
-console.log(error);
+    const diffMs =
+      checkOutDate - checkInDate;
 
-res.status(500).json({
-  message: error.message,
-});
+    const totalHours =
+      (diffMs / (1000 * 60 * 60))
+      .toFixed(2);
 
+    attendance.checkOutTime =
+      checkOutDate.toLocaleString();
 
-}
+    attendance.workingHours =
+      `${totalHours} Hours`;
+
+    await attendance.save();
+
+    res.status(200).json({
+      message: "Check Out Success",
+      attendance,
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
 
 };
 
