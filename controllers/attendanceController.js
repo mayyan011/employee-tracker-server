@@ -10,6 +10,9 @@ const {
   employeeName,
   latitude,
   longitude,
+  city,
+  area,
+  district,
 } = req.body;
 
 const attendance = new Attendance({
@@ -19,6 +22,12 @@ const attendance = new Attendance({
   employeeName,
 
   checkInTime: new Date().toLocaleString(),
+
+  city,
+
+  area,
+
+  district,
 
   location: {
     latitude,
@@ -34,6 +43,7 @@ const attendance = new Attendance({
   ],
 
 });
+
 
 await attendance.save();
 

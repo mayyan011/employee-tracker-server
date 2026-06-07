@@ -13,7 +13,11 @@ const attendanceSchema = new mongoose.Schema({
   checkOutTime: String,
   workingHours: String,
 
-  city: String,
+ city: String,
+
+area: String,
+
+district: String,
 
   location: {
     latitude: Number,
